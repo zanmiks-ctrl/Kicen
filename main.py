@@ -31,3 +31,8 @@ kruze = viz.add('kruze.obj', parent=obj)
 kruze.setPosition([35, 0, -32])
 kruze.setScale([0.1, 0.1, 0.1])
 kruze.setEuler([0, 0, -100])
+
+cukurs = viz.add('cukurs.obj', parent=obj)
+cukurs.setPosition([46, 75, -41])
+cukurs.setScale([0.2, 0.2, 0.2])
+cukurs.setEuler([0, 0, -100])
