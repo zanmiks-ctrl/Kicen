@@ -33,14 +33,14 @@ kruze.setScale([0.1, 0.1, 0.1])
 kruze.setEuler([0, 0, -100])
 
 cukurs = viz.add('cukurs.obj', parent=obj)
-cukurs.setPosition([46, 75, -41])
+cukurs.setPosition([47.5, 75, -41.5])
 cukurs.setScale([0.2, 0.2, 0.2])
 cukurs.setEuler([0, 0, -100])
 
 kafija = viz.add('kafija.obj', parent=obj)
-kafija.setPosition([33, 83, -41])
+kafija.setPosition([23.5, 93.5, -41.8])
 kafija.setScale([0.4, 0.4, 0.4])
-kafija.setEuler([0, 0, -100])
+
 
 piens = viz.add('piens.obj', parent=obj)
 piens.setPosition([-80, 35, -41])
