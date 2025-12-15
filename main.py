@@ -36,3 +36,13 @@ cukurs = viz.add('cukurs.obj', parent=obj)
 cukurs.setPosition([46, 75, -41])
 cukurs.setScale([0.2, 0.2, 0.2])
 cukurs.setEuler([0, 0, -100])
+
+kafija = viz.add('kafija.obj', parent=obj)
+kafija.setPosition([33, 83, -41])
+kafija.setScale([0.4, 0.4, 0.4])
+kafija.setEuler([0, 0, -100])
+
+piens = viz.add('piens.obj', parent=obj)
+piens.setPosition([-80, 35, -41])
+piens.setScale([0.2, 0.2, 0.2])
+piens.setEuler([0, 0, 70])
