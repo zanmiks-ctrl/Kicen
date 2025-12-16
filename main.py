@@ -3,15 +3,16 @@ import vizcam
 
 viz.go()
 
+viz.MainView.getHeadLight().disable()
+
+# Ambient light (brings back color)
+viz.disable(viz.LIGHTING)
 
 # Ielādē objektu AR MATERIĀLIEM
-obj = viz.add('kicen.glb')
+obj = viz.add('kicen3.glb')
 
 # Samazina objektu (ja par lielu)
 obj.setScale([0.1, 0.1, 0.1])
-
-# Pagriež par 90 grādiem
-obj.setEuler([0, 90, 0])
 
 # Novieto objektu priekšā
 obj.setPosition([0, 0, 5])
@@ -26,25 +27,25 @@ viz.MainView.setPosition([0, 6, 0])
 viz.mouse.setVisible(False)
 viz.mouse.setTrap(True)
 
-'''
 # Krūze iekš objekta
-kruze = viz.add('kruze.obj', parent=obj)
+kruze = viz.add('kruze.glb', parent=obj)
 kruze.setPosition([35, 0, -32])
 kruze.setScale([0.1, 0.1, 0.1])
 kruze.setEuler([0, 0, -100])
 
-cukurs = viz.add('cukurs.obj', parent=obj)
+cukurs = viz.add('cukurs.glb', parent=obj)
 cukurs.setPosition([47.5, 75, -41.5])
 cukurs.setScale([0.2, 0.2, 0.2])
 cukurs.setEuler([0, 0, -100])
 
-kafija = viz.add('kafija.obj', parent=obj)
+kafija = viz.add('kafija.glb', parent=obj)
 kafija.setPosition([23.5, 93.5, -41.8])
 kafija.setScale([0.4, 0.4, 0.4])
 
 
-piens = viz.add('piens.obj', parent=obj)
+piens = viz.add('piens.glb', parent=obj)
 piens.setPosition([-80, 35, -41])
 piens.setScale([0.2, 0.2, 0.2])
 piens.setEuler([0, 0, 70])
-'''
+
+viz.disable(viz.LIGHTING)
