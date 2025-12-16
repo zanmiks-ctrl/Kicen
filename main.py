@@ -5,7 +5,7 @@ viz.go()
 
 
 # Ielādē objektu AR MATERIĀLIEM
-obj = viz.add('kicen.obj')
+obj = viz.add('kicen.glb')
 
 # Samazina objektu (ja par lielu)
 obj.setScale([0.1, 0.1, 0.1])
@@ -26,6 +26,7 @@ viz.MainView.setPosition([0, 6, 0])
 viz.mouse.setVisible(False)
 viz.mouse.setTrap(True)
 
+'''
 # Krūze iekš objekta
 kruze = viz.add('kruze.obj', parent=obj)
 kruze.setPosition([35, 0, -32])
@@ -46,3 +47,4 @@ piens = viz.add('piens.obj', parent=obj)
 piens.setPosition([-80, 35, -41])
 piens.setScale([0.2, 0.2, 0.2])
 piens.setEuler([0, 0, 70])
+'''
