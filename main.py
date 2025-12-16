@@ -51,51 +51,119 @@ smalcinatajs.setEuler([-60, 0, 0])
 
 viz.disable(viz.LIGHTING)
 # =====================
+# PICK-UP SISTĒMA
+# =====================
+
 holdingCup = False
+holdingCoffee = False
+cupPlaced = False     # 👈 JAUNAIS NOSACĪJUMS
+kruze_s = None
+
+# Oriģinālie scale (no augšējā koda)
+CUP_SCALE = [0.1, 0.1, 0.1]
+GRINDER_SCALE = [0.3, 0.3, 0.3]
+
+# Scale kompensācija (lai izmērs nemainās)
+CUP_ON_GRINDER_SCALE = [
+    CUP_SCALE[0] / GRINDER_SCALE[0],
+    CUP_SCALE[1] / GRINDER_SCALE[1],
+    CUP_SCALE[2] / GRINDER_SCALE[2],
+]
+
 
 def updateHeldCup():
     pass
 
+
 vizact.onupdate(0, updateHeldCup)
 
+
 def onMouseDown(button):
-    global holdingCup
+    global holdingCup, holdingCoffee, kruze_s, cupPlaced
 
     if button != viz.MOUSEBUTTON_LEFT:
         return
 
     picked = viz.pick()
 
-    if holdingCup:
-        kruze.setParent(obj)
+    # ==================================================
+    # 1) PACELT KAFIJU (TIKAI JA KRŪZE IR NOVIETOTA)
+    # ==================================================
+    if picked == kafija and not holdingCoffee:
+        if not cupPlaced:
+            print("VISPIRMS NOVIETO KRŪZI PIE SMALCINĀTĀJA")
+            return
 
-        smPos = smalcinatajs.getPosition(viz.ABS_GLOBAL)
-        smForward = smalcinatajs.getMatrix(viz.ABS_GLOBAL).getForward()
+        kafija.setParent(viz.WORLD)
+        kafija.visible(False)
 
-        distance = 0 
-
-        kruze.setPosition(
-            smPos[0] + smForward[0] * distance,
-            smPos[1] + smForward[1] * distance,
-            smPos[2] + smForward[2] * distance,
-            viz.ABS_GLOBAL
-        )
-
-        kruze.setEuler(smalcinatajs.getEuler())
-
-        kruze.visible(True) 
-        holdingCup = False
-        print("KRŪZE NOVIETOTA")
+        holdingCoffee = True
+        print("KAFIJA PAŅEMTA ROKĀ")
         return
 
-    if picked == kruze:
+
+    # ==================================================
+    # 2) JA TURAM KAFIJU → KLIKŠĶIS UZ SMALCINĀTĀJA
+    # ==================================================
+    if holdingCoffee and picked == smalcinatajs:
+        print("KAFIJA IEBĒRTA SMALCINĀTĀJĀ")
+
+        holdingCoffee = False
+
+        # Paslēpjam veco krūzi
+        kruze.visible(False)
+
+        # Izveidojam jauno krūzi ar kafiju
+        kruze_s = viz.add('kruze_s.glb', parent=smalcinatajs)
+        kruze_s.disable(viz.LIGHTING)
+
+        kruze_s.setScale(CUP_ON_GRINDER_SCALE)
+        kruze_s.setPosition([0.4, 0, 0.8])
+        kruze_s.setEuler([0, 0, 0])
+
+        print("KRŪZE PĀRMAINĪTA UZ KAFIJAS KRŪZI")
+        return
+
+
+    # ==================================================
+    # 3) JA TURAM KRŪZI → NOLIEK PIE SMALCINĀTĀJA
+    # ==================================================
+    if holdingCup:
+        kruze.setParent(smalcinatajs)
+
+        kruze.setPosition([2, 0, 0.8])
+        kruze.setEuler([0, 0, 0])
+
+        kruze.setScale(CUP_ON_GRINDER_SCALE)
+        kruze.visible(True)
+
+        holdingCup = False
+        cupPlaced = True   # 👈 KRŪZE IR NOVIETOTA
+        print("KRŪZE NOVIETOTA PIE SMALCINĀTĀJA")
+        return
+
+
+    # ==================================================
+    # 4) PACELT KRŪZI
+    # ==================================================
+    if picked == kruze and not holdingCup:
         kruze.setParent(viz.WORLD)
 
+        kruze.setScale(CUP_SCALE)
         kruze.visible(False)
+
         holdingCup = True
-        print("KRŪZE PACELTA (NEREDZAMA)")
+        cupPlaced = False  # 👈 KRŪZE VIRS NAV NOVIETOTA
+        print("KRŪZE PAŅEMTA (NEREDZAMA)")
+        return
+
 
 viz.callback(viz.MOUSEDOWN_EVENT, onMouseDown)
+
+
+
+
+
 
 
 
