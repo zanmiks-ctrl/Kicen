@@ -16,7 +16,7 @@ vizcam.WalkNavigate()
 
 viz.MainView.setPosition([0, 6, 0])
 
-viz.mouse.setVisible(False)
+viz.mouse.setVisible(True)
 viz.mouse.setTrap(True)
 
 kruze = viz.add('kruze.glb', parent=obj)
@@ -50,3 +50,52 @@ smalcinatajs.setScale([0.3, 0.3, 0.3])
 smalcinatajs.setEuler([-60, 0, 0])
 
 viz.disable(viz.LIGHTING)
+# =====================
+holdingCup = False
+
+def updateHeldCup():
+    pass
+
+vizact.onupdate(0, updateHeldCup)
+
+def onMouseDown(button):
+    global holdingCup
+
+    if button != viz.MOUSEBUTTON_LEFT:
+        return
+
+    picked = viz.pick()
+
+    if holdingCup:
+        kruze.setParent(obj)
+
+        smPos = smalcinatajs.getPosition(viz.ABS_GLOBAL)
+        smForward = smalcinatajs.getMatrix(viz.ABS_GLOBAL).getForward()
+
+        distance = 0 
+
+        kruze.setPosition(
+            smPos[0] + smForward[0] * distance,
+            smPos[1] + smForward[1] * distance,
+            smPos[2] + smForward[2] * distance,
+            viz.ABS_GLOBAL
+        )
+
+        kruze.setEuler(smalcinatajs.getEuler())
+
+        kruze.visible(True) 
+        holdingCup = False
+        print("KRŪZE NOVIETOTA")
+        return
+
+    if picked == kruze:
+        kruze.setParent(viz.WORLD)
+
+        kruze.visible(False)
+        holdingCup = True
+        print("KRŪZE PACELTA (NEREDZAMA)")
+
+viz.callback(viz.MOUSEDOWN_EVENT, onMouseDown)
+
+
+
