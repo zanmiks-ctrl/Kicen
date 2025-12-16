@@ -82,8 +82,8 @@ kruze_p = None
 # SĀKOTNĒJĀS POZĪCIJAS
 # ---------------------
 
-CUP_TABLE_POS = kruze.getPosition(viz.WORLD)
-CUP_TABLE_EULER = kruze.getEuler(viz.WORLD)
+CUP_TABLE_POS = kruze.getPosition()
+CUP_TABLE_EULER = kruze.getEuler()
 
 KETTLE_POS = tejkanna.getPosition()
 KETTLE_EULER = tejkanna.getEuler()
@@ -246,10 +246,11 @@ def onMouseDown(button):
         holdingSugar = False
         kruze_s.visible(False)
 
-        kruze_sc = viz.add('kruze_sc.glb', parent=viz.WORLD)
-        kruze_sc.setPosition(CUP_TABLE_POS, viz.WORLD)
-        kruze_sc.setEuler(CUP_TABLE_EULER, viz.WORLD)
-
+        kruze_sc = viz.add('kruze_sc.glb', parent=obj)
+        kruze_sc.disable(viz.LIGHTING)
+        kruze_sc.setScale(CUP_SCALE)
+        kruze_sc.setPosition(CUP_TABLE_POS)
+        kruze_sc.setEuler(CUP_TABLE_EULER)
 
         setTask("PAŅEM TĒJKANNU")
         print("CUKURA GABALIŅI KRŪZĒ")
@@ -279,12 +280,12 @@ def onMouseDown(button):
         tejkanna.visible(True)
 
         kruze_sc.visible(False)
-        
-        kruze_u = viz.add('kruze_u.glb', parent=viz.WORLD)
-        kruze_u.setScale(CUP_SCALE)
-        kruze_u.setPosition(CUP_TABLE_POS, viz.WORLD)
-        kruze_u.setEuler(CUP_TABLE_EULER, viz.WORLD)
 
+        kruze_u = viz.add('kruze_u.glb', parent=obj)
+        kruze_u.disable(viz.LIGHTING)
+        kruze_u.setScale(CUP_SCALE)
+        kruze_u.setPosition(CUP_TABLE_POS)
+        kruze_u.setEuler(CUP_TABLE_EULER)
 
         setTask("PAŅEM PIENA PAKU")
         print("KRŪZE → KAFIJA AR ŪDENI")
@@ -315,11 +316,11 @@ def onMouseDown(button):
 
         kruze_u.visible(False)
 
-        kruze_p = viz.add('kruze_p.glb', parent=viz.WORLD)
+        kruze_p = viz.add('kruze_p.glb', parent=obj)
+        kruze_p.disable(viz.LIGHTING)
         kruze_p.setScale(CUP_SCALE)
-        kruze_p.setPosition(CUP_TABLE_POS, viz.WORLD)
-        kruze_p.setEuler(CUP_TABLE_EULER, viz.WORLD)
-
+        kruze_p.setPosition(CUP_TABLE_POS)
+        kruze_p.setEuler(CUP_TABLE_EULER)
 
         setTask("KAFIJA IR GATAVA!")
         print("KAFIJA IR GATAVA!")
