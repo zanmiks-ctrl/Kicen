@@ -9,7 +9,7 @@ viz.MainView.getHeadLight().disable()
 viz.disable(viz.LIGHTING)
 
 # Ielādē objektu AR MATERIĀLIEM
-obj = viz.add('kicen3.glb')
+obj = viz.add('kicen.glb')
 
 # Samazina objektu (ja par lielu)
 obj.setScale([0.1, 0.1, 0.1])
