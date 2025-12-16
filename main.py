@@ -48,6 +48,18 @@ smalcinatajs.setEuler([-60, 0, 0])
 
 viz.disable(viz.LIGHTING)
 
+taskText = viz.addText(
+    'PAŅEM KRŪZI',
+    parent=viz.SCREEN
+)
+taskText.setPosition(0.5, 0.9)
+taskText.alignment(viz.ALIGN_CENTER)
+taskText.fontSize(34)
+taskText.color(viz.BLACK)
+
+def setTask(text):
+    taskText.message(text)
+    
 # =====================
 # PICK-UP SISTĒMA
 # =====================
@@ -70,8 +82,8 @@ kruze_p = None
 # SĀKOTNĒJĀS POZĪCIJAS
 # ---------------------
 
-CUP_TABLE_POS = kruze.getPosition()
-CUP_TABLE_EULER = kruze.getEuler()
+CUP_TABLE_POS = kruze.getPosition(viz.WORLD)
+CUP_TABLE_EULER = kruze.getEuler(viz.WORLD)
 
 KETTLE_POS = tejkanna.getPosition()
 KETTLE_EULER = tejkanna.getEuler()
@@ -123,6 +135,8 @@ def onMouseDown(button):
         holdingCup = True
         cupPlaced = False
         coffeeCupOnTable = False
+       
+        setTask("KRŪZI UZKLIKŠĶINI UZ SMALCINĀTĀJA")
         print("KRŪZE PAŅEMTA")
         return
 
@@ -138,6 +152,8 @@ def onMouseDown(button):
 
         holdingCup = False
         cupPlaced = True
+        
+        setTask("PAŅEM KAFIJAS PUPIŅAS")
         print("KRŪZE NOVIETOTA PIE SMALCINĀTĀJA")
         return
 
@@ -146,13 +162,15 @@ def onMouseDown(button):
     # ==================================================
     if picked == kafija:
         if holdingCup or not cupPlaced:
-            print("Vispirms noliec krūzi pie smalcinātāja!")
+            print("VISPIRMS NOLIEC KRŪZI PIE SMALCINĀTĀJA!")
             return
         if any([holdingCoffee, holdingSugar, holdingKettle, holdingMilk]):
             return
 
         kafija.visible(False)
         holdingCoffee = True
+        
+        setTask("IEBER KAFIJAS PUPIŅAS SMALCINĀTĀJĀ")
         print("KAFIJA PAŅEMTA")
         return
 
@@ -168,8 +186,9 @@ def onMouseDown(button):
         kruze_s.setScale(CUP_ON_GRINDER_SCALE)
         kruze_s.setPosition([2, 0, 0.8])
         kruze_s.setEuler([0, 0, 0])
-
-        print("KRŪZE → KAFIJAS KRŪZE")
+        
+        setTask("NOLIEC KAFIJAS KRŪZI UZ GALDA")
+        print("KAFIJA SASMALCINĀTA")
         return
 
     # ==================================================
@@ -198,6 +217,8 @@ def onMouseDown(button):
 
         holdingCupS = False
         coffeeCupOnTable = True
+        
+        setTask("PAŅEM CUKURA KUBICIŅUS")
         print("KAFIJAS KRŪZE NOVIETOTA UZ GALDA")
         return
 
@@ -206,13 +227,15 @@ def onMouseDown(button):
     # ==================================================
     if picked == cukurs:
         if not coffeeCupOnTable:
-            print("Vispirms noliec kafijas krūzi uz galda!")
+            print("VISPIRMS NOLIEC KAFIJAS KRŪZI UZ GALDA")
             return
         if any([holdingSugar, holdingKettle, holdingMilk]):
             return
 
         cukurs.visible(False)
         holdingSugar = True
+        
+        setTask("CUKURA KUBICIŅUS IELIEC KRŪZĒ")
         print("CUKURS PAŅEMTS")
         return
 
@@ -223,13 +246,13 @@ def onMouseDown(button):
         holdingSugar = False
         kruze_s.visible(False)
 
-        kruze_sc = viz.add('kruze_sc.glb', parent=obj)
-        kruze_sc.disable(viz.LIGHTING)
-        kruze_sc.setScale(CUP_SCALE)
-        kruze_sc.setPosition(CUP_TABLE_POS)
-        kruze_sc.setEuler(CUP_TABLE_EULER)
+        kruze_sc = viz.add('kruze_sc.glb', parent=viz.WORLD)
+        kruze_sc.setPosition(CUP_TABLE_POS, viz.WORLD)
+        kruze_sc.setEuler(CUP_TABLE_EULER, viz.WORLD)
 
-        print("KRŪZE → KAFIJA + CUKURS")
+
+        setTask("PAŅEM TĒJKANNU")
+        print("CUKURA GABALIŅI KRŪZĒ")
         return
 
     # ==================================================
@@ -238,8 +261,9 @@ def onMouseDown(button):
     if picked == tejkanna and kruze_sc and not any([holdingKettle, holdingMilk]):
         tejkanna.setParent(viz.WORLD)
         tejkanna.visible(False)
-
         holdingKettle = True
+        
+        setTask("IELEJ ŪDENI NO TĒJKANNAS KRŪZĒ")
         print("TEJKANNA PAŅEMTA")
         return
 
@@ -255,13 +279,14 @@ def onMouseDown(button):
         tejkanna.visible(True)
 
         kruze_sc.visible(False)
-
-        kruze_u = viz.add('kruze_u.glb', parent=obj)
-        kruze_u.disable(viz.LIGHTING)
+        
+        kruze_u = viz.add('kruze_u.glb', parent=viz.WORLD)
         kruze_u.setScale(CUP_SCALE)
-        kruze_u.setPosition(CUP_TABLE_POS)
-        kruze_u.setEuler(CUP_TABLE_EULER)
+        kruze_u.setPosition(CUP_TABLE_POS, viz.WORLD)
+        kruze_u.setEuler(CUP_TABLE_EULER, viz.WORLD)
 
+
+        setTask("PAŅEM PIENA PAKU")
         print("KRŪZE → KAFIJA AR ŪDENI")
         return
 
@@ -271,8 +296,9 @@ def onMouseDown(button):
     if picked == piens and kruze_u and not holdingMilk:
         piens.setParent(viz.WORLD)
         piens.visible(False)
-
         holdingMilk = True
+        
+        setTask("IELEJ PIENU KRŪZĒ")
         print("PIENS PAŅEMTS")
         return
 
@@ -289,13 +315,14 @@ def onMouseDown(button):
 
         kruze_u.visible(False)
 
-        kruze_p = viz.add('kruze_p.glb', parent=obj)
-        kruze_p.disable(viz.LIGHTING)
+        kruze_p = viz.add('kruze_p.glb', parent=viz.WORLD)
         kruze_p.setScale(CUP_SCALE)
-        kruze_p.setPosition(CUP_TABLE_POS)
-        kruze_p.setEuler(CUP_TABLE_EULER)
+        kruze_p.setPosition(CUP_TABLE_POS, viz.WORLD)
+        kruze_p.setEuler(CUP_TABLE_EULER, viz.WORLD)
 
-        print("☕ KAFIJA AR PIENU GATAVA!")
+
+        setTask("KAFIJA IR GATAVA!")
+        print("KAFIJA IR GATAVA!")
         return
 
 
