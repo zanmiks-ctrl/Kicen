@@ -44,4 +44,9 @@ tejkanna.setPosition([0, 42, 85])
 tejkanna.setScale([0.2, 0.2, 0.2])
 tejkanna.setEuler([-60, 0, 0])
 
+smalcinatajs= viz.add('smalcinatajs.glb', parent=obj)
+smalcinatajs.setPosition([0, 42, 0])
+smalcinatajs.setScale([0.2, 0.2, 0.2])
+smalcinatajs.setEuler([-60, 0, 0])
+
 viz.disable(viz.LIGHTING)
